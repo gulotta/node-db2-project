@@ -4,11 +4,13 @@ const server = express()
 
 server.use(express.json())
 
+server.use('/api/cars', carsRouter)
+
 server.use('*', (req, res, next) => {
     next({status: 404, message: 'not found!'})
 })
 
-server.use('/api/cars', carsRouter)
+
 
 // DO YOUR MAGIC
 server.use((err, req, res, next) => { // eslint-disable-line

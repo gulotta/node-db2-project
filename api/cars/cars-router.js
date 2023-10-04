@@ -1,16 +1,27 @@
 // DO YOUR MAGIC
-const Cars = require('./cars-model')
-const router = require('express').Router();
+const express = require('express')
 
-router.get('/', (req, res) => {
-    Cars.getAll()
-    .then(cars => {
+const Cars = require('./cars-model')
+
+const router = express.Router();
+
+router.get('/', async (req, res, next) => {
+    try {
+        const cars = await Cars.getAll()
         res.json(cars)
-    })
-    .catch(err => {
-        res.status(500).json({ 
-            message: `Failed to retrieve cars: ${err.message}`});
-    })
+    } catch (err) {
+        next(err)
+    }
 })
+
+router.get('/', async (req, res, next) => {
+    res.json(`getting car with id ${req.params.id}`)
+})
+
+router.post('/', async (req, res, next) => {
+    res.json('posting new car')
+})
+
+
 
 module.exports = router
