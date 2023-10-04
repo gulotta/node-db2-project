@@ -29,7 +29,12 @@ checkCarPayload,
 checkVinNumberUnique, 
 checkVinNumberValid, 
 async (req, res, next) => {
-    res.json('posting new car')
+    try {
+        const car = await Cars.create(req.body)
+        res.json(car)
+    } catch (err) {
+        next(err)
+    }
 })
 
 
